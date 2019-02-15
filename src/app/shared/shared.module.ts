@@ -1,0 +1,46 @@
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
+import { MatSliderModule } from '@angular/material/slider';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatListModule } from '@angular/material/list';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatSnackBarModule, MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
+import { TimedisplayPipe } from './timedisplay.pipe';
+import { FormsModule } from '@angular/forms';
+import { BsArtworkComponent } from './bs-artwork/bs-artwork.component';
+import { ContextMenuComponent } from './context-menu/context-menu.component';
+import { AlbumComponent } from './album/album.component';
+
+@NgModule({
+  imports: [
+    CommonModule,
+    MatButtonModule,
+    MatMenuModule,
+    MatSliderModule,
+    MatExpansionModule,
+    MatListModule,
+    MatSnackBarModule,
+
+    FormsModule,
+  ],
+  declarations: [TimedisplayPipe, BsArtworkComponent, ContextMenuComponent, AlbumComponent],
+  exports: [
+    MatButtonModule,
+    MatSliderModule,
+    MatExpansionModule,
+    MatSnackBarModule,
+    MatListModule,
+
+    FormsModule,
+
+    ContextMenuComponent,
+    BsArtworkComponent,
+    TimedisplayPipe,
+    AlbumComponent
+  ],
+  providers: [
+    { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 2500, position: 'top' } }
+  ]
+})
+export class SharedModule { }

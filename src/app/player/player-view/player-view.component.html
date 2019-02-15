@@ -1,0 +1,28 @@
+<app-player-status [status]="status$|async"></app-player-status>
+<button mat-raised-button (click)="prev()">Prev</button>
+<button mat-raised-button (click)="pause()" [disabled]="(status$|async)?.state==='pause'">Pause</button>
+<button mat-raised-button (click)="play()" [disabled]="(status$|async)?.state==='play'">Play</button>
+<button mat-raised-button (click)="next()">Next</button>
+
+<label>Volume</label>
+<a mat-raised-button (click)="decVol()">-</a>
+<mat-slider min="0" max="100" step="0.5"
+  thumbLabel
+  [(ngModel)]="volume"
+  [displayWith]="_volumeTransform"
+  (change)="volumeSliderChange($ev)"></mat-slider>
+<a mat-raised-button (click)="incVol()">+</a>
+<input disabled [(ngModel)]="volume" size="2">
+
+<div>
+  <button mat-raised-button (click)="clear()">Clear</button>
+
+  <div class="playlistScroller">
+    <ul class="item-list">
+      <app-playlistentry *ngFor="let entry of (songs$|async)"
+        [entry]="entry"
+        (play)="jumpTo($event)"
+        (clear)="clearPlaylistEntry($event)"></app-playlistentry>
+    </ul>
+  </div>
+</div>

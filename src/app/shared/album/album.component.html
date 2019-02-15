@@ -1,0 +1,14 @@
+<li class="list-row">
+  <div>
+    <div class="img-container-small" (click)="clicked()">
+      <bs-artwork [albumid]="album.albumid" [service]="album.service"></bs-artwork>
+    </div>
+  </div>
+  <div (click)="clicked()" class="main-grow-element">
+    <h3>{{album.title}}</h3>
+    <h4>{{album.art}} {{album.date}}</h4>
+  </div>
+  <div>
+    <app-context-menu [item]="album"></app-context-menu>
+  </div>
+</li>

@@ -1,0 +1,9 @@
+<mat-menu #appMenu="matMenu">
+  <button mat-menu-item
+    *ngFor="let option of options"
+    (click)="option.action(item)">{{option.name}}</button>
+</mat-menu>
+
+<button mat-raised-button [matMenuTriggerFor]="appMenu">
+  ...
+</button>

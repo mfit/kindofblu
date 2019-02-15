@@ -1,0 +1,13 @@
+:host {
+    display: flex;
+}
+
+.albumart {
+    width: 280px;
+    height: 280px;
+}
+
+.titles {
+    width: 100%;
+    flex: 1 5 80%;
+}

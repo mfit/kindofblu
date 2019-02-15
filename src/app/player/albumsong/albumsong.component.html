@@ -1,0 +1,8 @@
+<li class="list-row">
+  <div class="main-grow-element">
+    <h3>{{song.track}}. {{song.title}}</h3>
+    <h4>{{song.art}}, {{song.alb}}</h4>
+    {{song.time | timedisplay}} <small>{{song.date}}</small>
+  </div>
+  <app-context-menu [item]="song"></app-context-menu>
+</li>

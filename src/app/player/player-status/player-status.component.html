@@ -1,0 +1,42 @@
+<div *ngIf="status">
+  <div class="row">
+    <div class="img-container-large">
+      <bs-artwork [songid]="status.fn" [service]="status.service"></bs-artwork>
+    </div>
+    <div class="panel">
+      <h1 class="main-title">{{status.artist}} - {{status.name}}</h1>
+      <h2>{{status.album}}, {{status.artist}}</h2>
+      <div>
+        <div class="track-position-digits">
+          <h1>
+            <pre>{{status.secs | timedisplay}} <small>/ {{status.totlen | timedisplay}}</small></pre>
+          </h1>
+        </div>
+        <div class="track-position">
+          <mat-slider
+            [min]="0"
+            [max]="status.totlen"
+            [value]="status.secs"
+            thumbLabel
+            disabled
+            tickInterval="1"></mat-slider>
+        </div>
+        <div>
+          <span>{{status.streamFormat}}</span>
+          <img [src]="status.serviceIconUrl" class="serviceIcon">
+          <span>{{status.service}}</span>
+        </div>
+      </div>
+      <div>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>Status Details</mat-panel-title>
+          </mat-expansion-panel-header>
+          <pre>{{status|json}}</pre>
+        </mat-expansion-panel>
+      </div>
+
+    </div>
+  </div>
+
+</div>

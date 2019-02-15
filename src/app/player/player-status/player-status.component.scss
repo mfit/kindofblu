@@ -1,0 +1,40 @@
+.row {
+  display: flex;
+  width: 100%;
+  // justify-content: center;
+  // vertical-align: center;
+}
+
+.panel {
+  padding: 0.5em;
+}
+
+.main-title {
+  font-size: 36pt;
+}
+
+mat-slider {
+  width: 100%;
+}
+
+.track-position {
+  width: 100%;
+}
+
+.track-position-digits {
+  small {
+    font-size:50%;
+  }
+}
+
+pre {
+  font-size: 80%;
+}
+
+.trackImage {
+  width: 320px;
+}
+
+.serviceIcon {
+  width: 1em;
+}

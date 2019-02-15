@@ -1,0 +1,14 @@
+<li [ngClass]="{'playing': entry.playing}" class="list-row">
+  <div class="img-container-small">
+    <bs-artwork [albumid]="entry.albumid" [service]="entry.service"></bs-artwork>
+  </div>
+  <button (click)="jumpTo(entry)" mat-raised-button>Play</button>
+  <div class="main-grow-element">
+    <h3>{{entry.title}}</h3>
+    {{entry.art}} <small>{{entry.alb}}</small>
+  </div>
+  <div>
+    <a (click)="clearEntry(entry)">X</a>
+  </div>
+  <app-context-menu [item]="entry"></app-context-menu>
+</li>

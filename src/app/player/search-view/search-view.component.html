@@ -1,0 +1,58 @@
+<input type="search" [formControl]="searchInput">
+<div class="results">
+  <section>
+    <h2>Albums</h2>
+    <ul class="item-list">
+      <li *ngFor="let album of result?.albums" class="list-row">
+        <span class="img-container-small"
+          [routerLink]="['/album', album.albumid]">
+          <bs-artwork [albumid]="album.albumid" [service]="result.service"></bs-artwork>
+        </span>
+        <span class="main-grow-element">
+          <h2>{{album.title}}</h2>
+          <h3>{{album.art}}</h3>
+          <!-- {{album|json}} -->
+        </span>
+        <span class="actions">
+          <app-context-menu [item]="album"></app-context-menu>
+        </span>
+      </li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Artists</h2>
+    <ul class="item-list">
+      <li *ngFor="let artist of result?.artists" class="list-row">
+        <span class="img-container-small"
+          [routerLink]="['/artist', artist.artistid]">
+        </span>
+        <span class="main-grow-element" [routerLink]="['/artist', artist.artistid]">
+          <h2>{{artist.name}}</h2>
+        </span>
+        <span class="actions">
+          <app-context-menu [item]="artist"></app-context-menu>
+        </span>
+      </li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Songs</h2>
+    <ul class="item-list">
+      <li *ngFor="let song of result?.songs" class="list-row">
+        <span class="img-container-small"
+          [routerLink]="['/song', song.songid]">
+          <bs-artwork [albumid]="song.albumid" [service]="result.service"></bs-artwork>
+        </span>
+        <span class="main-grow-element" [routerLink]="['/song', song.songid]">
+          <h2>{{song.title}} {{song.time|timedisplay}}</h2>
+          <h3>{{song.art}}, {{song.alb}}</h3>
+        </span>
+        <span class="actions">
+          <app-context-menu [item]="song"></app-context-menu>
+        </span>
+      </li>
+    </ul>
+  </section>
+</div>

@@ -1,0 +1,4 @@
+<h2>Albums</h2>
+<ul class="item-list">
+  <app-album (mainAction)="albumClick(album)" [album]="album" *ngFor="let album of (albums$ | async)?.albums"></app-album>
+</ul>

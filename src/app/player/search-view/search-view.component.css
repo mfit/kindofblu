@@ -1,0 +1,26 @@
+:host {
+    height: 100%;
+}
+
+input {
+    width: 90%;
+    padding: 1.1em;
+    margin: 1.1em;
+    font-size: 130%;
+}
+
+a[routerLink] {
+    cursor: pointer;
+}
+
+.results {
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+
+.results > section {
+    flex: 1 1 30%;
+    max-height: 100%;
+    overflow: auto;
+}

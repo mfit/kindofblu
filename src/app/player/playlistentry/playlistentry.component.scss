@@ -1,0 +1,5 @@
+@import '../../../colors.scss';
+li.playing {
+    font-weight: bold;
+    background: $highlight2;
+}
