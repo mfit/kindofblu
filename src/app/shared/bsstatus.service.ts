@@ -1,15 +1,14 @@
-import { Injectable } from '@angular/core';
-import { BsapiService } from './bsapi.service';
-import { BehaviorSubject, timer, Observable } from 'rxjs';
-import { mergeMap, map, share, distinctUntilChanged } from 'rxjs/operators';
-import * as he from 'he';
-import { PlayerStatus } from './api/interfaces';
+import { Injectable } from "@angular/core";
+import { BsapiService } from "./bsapi.service";
+import { BehaviorSubject, timer, Observable } from "rxjs";
+import { mergeMap, map, share, distinctUntilChanged } from "rxjs/operators";
+import * as he from "he";
+import { PlayerStatus } from "./api/interfaces";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root"
 })
 export class BsstatusService {
-
   // Interval for status polling
   statusInterval = 1000;
 
@@ -20,22 +19,20 @@ export class BsstatusService {
   statusTrackChange$: Observable<any>;
 
   constructor(private api: BsapiService) {
-
     const pollingSource = timer(0, this.statusInterval);
 
-    const statusUpdates = pollingSource
-      .pipe(
-        mergeMap(_ => this.api.getStatus()),
-        map(status => this._mapStatus(status)),
-        share()
-      );
+    const statusUpdates = pollingSource.pipe(
+      mergeMap(_ => this.api.getStatus()),
+      map(status => this._mapStatus(status)),
+      share()
+    );
 
     statusUpdates.subscribe(status => {
       this.status$.next(status);
     });
 
     this.statusTrackChange$ = statusUpdates.pipe(
-      map(status => [status.song, status.state].join('-')),
+      map(status => [status.song, status.state].join("-")),
       distinctUntilChanged()
     );
   }
@@ -52,13 +49,14 @@ export class BsstatusService {
 
   _mapImageUrl(url) {
     if (!url) {
-      return '';
+      return "";
     }
-    return url.indexOf('http') === 0 ? he.decode(url) : this.api.baseurl + he.decode(url);
+    return url.indexOf("http") === 0
+      ? he.decode(url)
+      : this.api.baseurl + he.decode(url);
   }
 
   getStatus() {
     return this.status$.getValue();
   }
-
 }

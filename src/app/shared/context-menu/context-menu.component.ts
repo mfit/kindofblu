@@ -96,7 +96,7 @@ export class ContextMenuComponent implements OnInit {
         return this.bsapi.addSong(item.songid, service)
       }));
     request.subscribe(v => {
-      this.feedback.success(`Added ${v.coumt} titles!`);
+      this.feedback.success(`Added ${v.count} titles!`);
     });
   }
 

@@ -1,7 +1,8 @@
 
 # Kindofblu
 
-An unofficial web-based BluOs player, writtenin angular / typescript.
+An unofficial web-based BluOs player, written in angular / typescript.
+
 
 API documentation was found here:
 https://helpdesk.bluesound.com/discussions/viewtopic.php?f=4&t=2293&sid=63fc6019949af8c27ff4368bf079f1f3

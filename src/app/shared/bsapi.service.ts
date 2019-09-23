@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
 import { map, tap } from 'rxjs/operators';
 import * as parser from 'fast-xml-parser';
 import * as he from 'he';
 import { Observable } from 'rxjs';
 import { PlayerStatus, Playlist, SearchResult, Album } from './api/interfaces';
 import { ServiceDef } from './api/interfaces/service-def';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -14,27 +14,27 @@ export class BsapiService {
   protocol = 'http';
   ip = '192.168.0.19';
   port = '11000';
-  public baseurl = 'http://192.168.0.19:11000';
+  public baseurl = 'http://192.168.0.102:11000';
 
   parserOptions = {
     // attributeNamePrefix: "@_",
-    attrNodeName: "attr", //default is 'false'
-    textNodeName: "#text",
+    attrNodeName: 'attr', //default is 'false'
+    textNodeName: '#text',
     ignoreAttributes: false,
     // ignoreNameSpace: false,
     // allowBooleanAttributes: false,
     parseNodeValue: true,
     parseAttributeValue: true,
     // trimValues: true,
-    cdataTagName: "__cdata", //default is 'false'
+    cdataTagName: '__cdata', //default is 'false'
     // cdataPositionChar: "\\c",
     // localeRange: "", //To support non english character in tag/attribute values.
     parseTrueNumberOnly: true,
-    attrValueProcessor: a => he.decode(a, { isAttributeValue: true }),//default is a=>a
+    attrValueProcessor: a => he.decode(a, { isAttributeValue: true }), //default is a=>a
     tagValueProcessor: a => he.decode(a) //default is a=>a
   };
 
-  constructor(private http: Http) {}
+  constructor(private http: HttpClient) {}
 
   // service discovery
   getServiceList() {
@@ -42,32 +42,28 @@ export class BsapiService {
   }
 
   // retrieve overview available services
-  getServices():Observable<{items:ServiceDef[]}> {
-    return this._doGet('/Browse?service=Capture')
-      .pipe(
-        map(response => {
-          return {items: response.browse.item.map(this._FixXmlParse)};
-        }))
-        ;
+  getServices(): Observable<{ items: ServiceDef[] }> {
+    return this._doGet('/Browse?service=Capture').pipe(
+      map(response => {
+        return { items: response.browse.item.map(this._FixXmlParse) };
+      })
+    );
   }
 
   // Player status ! current track, seconds into track etc.
   getStatus(): Observable<PlayerStatus> {
-    return this._doGet('/Status')
-      .pipe(
-        map(response => <PlayerStatus> response.status)
-      );
+    return this._doGet('/Status').pipe(map(response => <PlayerStatus>response.status));
   }
 
   getCurrentPlaylist(): Observable<Playlist> {
-    return this._doGet('/Playlist')
-      .pipe(
-        tap(v => console.log(v)),
-        map(playlist => {
+    return this._doGet('/Playlist').pipe(
+      tap(v => console.log(v)),
+      map(playlist => {
         return {
           songs: this._listItemHelper(playlist.playlist.song)
         };
-      }));
+      })
+    );
   }
 
   setVolume(pctg: number): Observable<any> {
@@ -95,23 +91,28 @@ export class BsapiService {
     // http://192.168.0.19:11000/Search?service=Qobuz&expr=Coltrane
     query = encodeURI(query);
     const queryReqUrl = `/Search?service=${service}&expr=${query}`;
-    return this._doGet(queryReqUrl)
-      .pipe(map(response => {
+    return this._doGet(queryReqUrl).pipe(
+      map(response => {
         const searchResult = this._FixXmlParse(response.search);
-        console.log(searchResult);
+        // console.log(searchResult);
 
         try {
           return {
             service: searchResult.service,
             songs: response.search.songs ? this._listItemHelper(response.search.songs.song) : [],
-            albums: response.search.albums ? this._listItemHelper(response.search.albums.album) : [],
-              artists: response.search.artists ? this._listItemHelper(response.search.artists.artist) : []
-          }
+            albums: response.search.albums
+              ? this._listItemHelper(response.search.albums.album)
+              : [],
+            artists: response.search.artists
+              ? this._listItemHelper(response.search.artists.artist)
+              : []
+          };
         } catch (e) {
-          console.error("search result object error ... ");
+          console.error('search result object error ... ');
           console.error(searchResult);
         }
-      }));
+      })
+    );
   }
 
   /**
@@ -134,17 +135,16 @@ export class BsapiService {
     }
   }
 
-
   // http://192.168.0.19:11000/Add?playnow=1&service=Qobuz&albumid=5014436905025
   // add an album to playlist, optionally start playing right now
   // Also available :
   //    where=next , where=last
-  addAlbum(albumid, service, where='next', playnow=-1) {
+  addAlbum(albumid, service, where = 'next', playnow = -1) {
     const queryReqUrl = `/Add?albumid=${albumid}&service=${service}&where=${where}&playnow=${playnow}`;
     return this._doGet(queryReqUrl).pipe(map(res => this._FixXmlParse(res.addsong)));
   }
 
-  addSong(songid, service, where='next', playnow=-1) {
+  addSong(songid, service, where = 'next', playnow = -1) {
     const queryReqUrl = `/Add?songid=${songid}&service=${service}&where=${where}&playnow=${playnow}`;
     return this._doGet(queryReqUrl).pipe(map(res => this._FixXmlParse(res.addsong)));
   }
@@ -156,14 +156,15 @@ export class BsapiService {
   // Get songs of an album
   // http://192.168.0.19:11000/Songs?service=Qobuz&albumid=5014436905025
   getSongsOfAlbum(albumid, service): Observable<Album> {
-    return this._doGet(`/Songs?albumid=${albumid}&service=${service}`)
-      .pipe(map(result => {
-        const mapped = Object.assign(
-          this._FixXmlParse(result.songs),
-          { songs: result.songs.song.map(this._FixXmlParse)});
+    return this._doGet(`/Songs?albumid=${albumid}&service=${service}`).pipe(
+      map(result => {
+        const mapped = Object.assign(this._FixXmlParse(result.songs), {
+          songs: result.songs.song.map(this._FixXmlParse)
+        });
         delete mapped['song'];
         return mapped;
-      }));
+      })
+    );
   }
 
   // Get albums of an artist
@@ -171,17 +172,16 @@ export class BsapiService {
   getAlbumsOfArtist(artistid, service) {
     // Query albums for artist, get more at once  (up to 128)
     const requestUrl = `/Albums?artistid=${artistid}&service=${service}&start=0&end=128`;
-    return this._doGet(requestUrl)
-      .pipe(
-        map(result => {
-          const mappedResult = this._FixXmlParse(result.albums);
-          return {
-            service: mappedResult.service,
-            nextlink: mappedResult.nextlink || null,  // in case of more data
-            albums: this._listItemHelper(mappedResult.album)  // parse result list
-          }
-        })
-      );
+    return this._doGet(requestUrl).pipe(
+      map(result => {
+        const mappedResult = this._FixXmlParse(result.albums);
+        return {
+          service: mappedResult.service,
+          nextlink: mappedResult.nextlink || null, // in case of more data
+          albums: this._listItemHelper(mappedResult.album) // parse result list
+        };
+      })
+    );
   }
 
   getAlbumArt(albumid, service) {
@@ -202,15 +202,20 @@ export class BsapiService {
 
   private _doGet(url) {
     return this.http
-      .get(this._url(url))
-      .pipe(map(response => this._parse(response)));
+      .get(this._url(url), {
+        responseType: 'text'
+      })
+      .pipe(
+        map(response => this._parse(response))
+      );
   }
 
   private _parse(response) {
-    const xml = response.text();
+    // const xml = response.text();
+    const xml = response;
     const parsed = parser.parse(xml, this.parserOptions);
     if (!!parsed.error) {
-      throw new Error(parsed.error.message + ": " + parsed.error.detail);
+      throw new Error(parsed.error.message + ': ' + parsed.error.detail);
     }
     return parsed;
   }
@@ -233,7 +238,5 @@ export class BsapiService {
     return obj;
   }
 
-
   // http://192.168.1.38:11000/Services
-
 }
