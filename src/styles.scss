@@ -1,15 +1,31 @@
 /* You can add global styles to this file, and also import other style files */
-@import "~@angular/material/prebuilt-themes/purple-green.css";
+@import '~@angular/material/prebuilt-themes/purple-green.css';
+@import '~material-design-icons/iconfont/material-icons.css';
+
 @import './colors.scss';
+
+// @import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+@import '~@angular/material/theming';
+$custom-typography: mat-typography-config(
+  $font-family: '"Helvetica Neue", Helvetica, Arial, sans-serif',
+  $headline: mat-typography-level(52px, 64px, 700),
+  $body-1: mat-typography-level(16px, 18px, 500)
+);
+@include mat-core($custom-typography);
 
 /*
  basic styles
  */
-*, *:after, *:before { box-sizing: inherit; }
+*,
+*:after,
+*:before {
+  box-sizing: inherit;
+}
 
 html {
-    height: 100%;
-    box-sizing: border-box;
+  height: 100%;
+  box-sizing: border-box;
 }
 
 body {
@@ -21,13 +37,18 @@ body {
   color: $foreground;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   margin: 0.25em 0;
 }
 
 .img-container-small {
-  width: 55px;
-  height: 55px;
+  width: 75px;
+  height: 75px;
 }
 
 .img-container-med {
@@ -57,10 +78,10 @@ ul.item-list {
 }
 
 li.list-row {
-    display: flex;
+  display: flex;
 }
 
-li.list-row >* {
+li.list-row > * {
   flex: 0 0 auto;
   padding: 4px;
 }
@@ -73,9 +94,8 @@ li.list-row:hover {
   background: $highlight;
 }
 
-
-
-.playing, .selected {
-    font-weight: bold;
-    background: $highlight2;
+.playing,
+.selected {
+  font-weight: bold;
+  background: $highlight2;
 }

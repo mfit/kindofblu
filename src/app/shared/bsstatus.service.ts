@@ -10,7 +10,7 @@ import { PlayerStatus } from "./api/interfaces";
 })
 export class BsstatusService {
   // Interval for status polling
-  statusInterval = 1000;
+  statusInterval = 500;
 
   // Status once every interval (1 sec)
   status$ = new BehaviorSubject<PlayerStatus>(null);

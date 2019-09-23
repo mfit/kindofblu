@@ -205,9 +205,7 @@ export class BsapiService {
       .get(this._url(url), {
         responseType: 'text'
       })
-      .pipe(
-        map(response => this._parse(response))
-      );
+      .pipe(map(response => this._parse(response)));
   }
 
   private _parse(response) {

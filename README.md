@@ -25,3 +25,7 @@ All proof-of-concept only !
  - search (tested only with remote services quobuz and tidal)
  - artist/album view
  - add album to queue
+
+ ## Screenshort
+
+![app main player view](screenshot.png)

@@ -3,3 +3,10 @@ li.playing {
     font-weight: bold;
     background: $highlight2;
 }
+
+
+.control-button {
+    .mat-icon {
+        transform: scale(2);
+    }
+}

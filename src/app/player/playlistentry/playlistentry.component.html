@@ -1,14 +1,18 @@
-<li [ngClass]="{'playing': entry.playing}" class="list-row">
+<li [ngClass]="{ playing: entry.playing }" class="list-row">
   <div class="img-container-small">
     <bs-artwork [albumid]="entry.albumid" [service]="entry.service"></bs-artwork>
   </div>
-  <button (click)="jumpTo(entry)" mat-raised-button>Play</button>
+  <div>
+    <button (click)="jumpTo(entry)" mat-icon-button title="Play" class="control-button">
+      <mat-icon>play_circle_outline</mat-icon>
+    </button>
+  </div>
   <div class="main-grow-element">
-    <h3>{{entry.title}}</h3>
-    {{entry.art}} <small>{{entry.alb}}</small>
+    <h3>{{ entry.title }}</h3>
+    {{ entry.art }} <small>{{ entry.alb }}</small>
   </div>
   <div>
-    <a (click)="clearEntry(entry)">X</a>
+    <button mat-icon-button (click)="clearEntry(entry)" title="Remove"><mat-icon>close</mat-icon></button>
   </div>
   <app-context-menu [item]="entry"></app-context-menu>
 </li>

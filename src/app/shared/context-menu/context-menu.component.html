@@ -4,6 +4,6 @@
     (click)="option.action(item)">{{option.name}}</button>
 </mat-menu>
 
-<button mat-raised-button [matMenuTriggerFor]="appMenu">
-  ...
+<button mat-icon-button [matMenuTriggerFor]="appMenu" title="more">
+  <mat-icon>more_horiz</mat-icon>
 </button>

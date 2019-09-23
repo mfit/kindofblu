@@ -5,6 +5,7 @@ import { MatSliderModule } from '@angular/material/slider';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBarModule, MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 import { TimedisplayPipe } from './timedisplay.pipe';
 import { FormsModule } from '@angular/forms';
@@ -21,8 +22,9 @@ import { AlbumComponent } from './album/album.component';
     MatExpansionModule,
     MatListModule,
     MatSnackBarModule,
+    MatIconModule,
 
-    FormsModule,
+    FormsModule
   ],
   declarations: [TimedisplayPipe, BsArtworkComponent, ContextMenuComponent, AlbumComponent],
   exports: [
@@ -31,6 +33,7 @@ import { AlbumComponent } from './album/album.component';
     MatExpansionModule,
     MatSnackBarModule,
     MatListModule,
+    MatIconModule,
 
     FormsModule,
 
@@ -43,4 +46,4 @@ import { AlbumComponent } from './album/album.component';
     { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 2500, position: 'top' } }
   ]
 })
-export class SharedModule { }
+export class SharedModule {}

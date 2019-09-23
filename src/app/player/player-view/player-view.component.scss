@@ -1,5 +1,25 @@
+@import '../../../colors.scss';
+
 .playlistScroller {
-    max-height: 400px;
-    overflow: auto;
+  max-height: 400px;
+  overflow: auto;
 }
 
+.player-controls-wrapper {
+  display:flex;
+  background: $highlight;
+  padding: 5px;
+}
+.player-controls, .player-volume-controls {
+  margin: 5px -5px;
+  button {
+    transform: scale(2);
+    margin: 0 10px;
+  }
+}
+
+.volume-numeric-indicator {
+    background: transparent;
+    border: none;
+    outline: none;
+}
