@@ -1,6 +1,6 @@
-<div>
-  <a mat-raised-button routerLink="/player">Player</a>
-  <a mat-raised-button routerLink="/search">Search</a>
-  <a mat-raised-button routerLink="/services">Services</a>
+<div class="app-menu">
+  <a mat-button routerLink="/player" routerLinkActive="active-link"><mat-icon>menu</mat-icon>Player</a>
+  <a mat-button routerLink="/search" routerLinkActive="active-link"><mat-icon>search</mat-icon>Search</a>
+  <a mat-button routerLink="/services" routerLinkActive="active-link"><mat-icon>settings</mat-icon>Services</a>
 </div>
 <router-outlet class="router-outlet"></router-outlet>

@@ -1,4 +1,7 @@
 
-.playerbutton {
-
+.app-menu a {
+    font-size: 32px;
+}
+.app-menu a.active-link {
+    font-weight: bold;
 }

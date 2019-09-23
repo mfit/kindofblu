@@ -26,6 +26,6 @@ All proof-of-concept only !
  - artist/album view
  - add album to queue
 
- ## Screenshort
+ ## Screenshot
 
 ![app main player view](screenshot.png)

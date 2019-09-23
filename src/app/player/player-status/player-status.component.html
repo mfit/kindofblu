@@ -8,9 +8,7 @@
       <h2>{{status.album}}, {{status.artist}}</h2>
       <div>
         <div class="track-position-digits">
-          <h1>
-            <pre>{{status.secs | timedisplay}} <small>/ {{status.totlen | timedisplay}}</small></pre>
-          </h1>
+            {{status.secs | timedisplay}} <small>/ {{status.totlen | timedisplay}}</small>
         </div>
         <div class="track-position">
           <mat-slider

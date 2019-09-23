@@ -22,14 +22,18 @@ mat-slider {
 }
 
 .track-position-digits {
+  font-size: 64px;
+  line-height: 70px;
+  font-family: monospace;
   small {
     font-size:50%;
   }
+  pre {
+    margin:0;
+  }
 }
 
-pre {
-  font-size: 80%;
-}
+
 
 .trackImage {
   width: 320px;
