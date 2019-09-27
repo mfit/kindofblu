@@ -1,10 +1,12 @@
-<div class="albumart">
-  <bs-artwork [albumid]="(album$|async)?.albumid" [service]="service$|async"></bs-artwork>
-</div>
-<div class="titles">
-  <h2>Title</h2>
-  <ul class="item-list">
-    <app-albumsong [song]="song" (playlistadd)="add($event)" *ngFor="let song of (album$ | async)?.songs">
-    </app-albumsong>
-  </ul>
-</div>
+<section *ngIf="album$ | async as album" class="album">
+  <div class="albumart">
+    <bs-artwork [albumid]="album.albumid" [service]="service$ | async"></bs-artwork>
+  </div>
+  <div class="titles">
+    <h2>{{album.albumTitles.join('')}} <app-context-menu [item]="album"></app-context-menu></h2>
+    <ul class="item-list">
+      <app-albumsong [song]="song" (playlistadd)="add($event)" *ngFor="let song of album.songs">
+      </app-albumsong>
+    </ul>
+  </div>
+</section>

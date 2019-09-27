@@ -1,8 +1,14 @@
 <li class="list-row">
   <div class="main-grow-element">
-    <h3>{{song.track}}. {{song.title}}</h3>
-    <h4>{{song.art}}, {{song.alb}}</h4>
-    {{song.time | timedisplay}} <small>{{song.date}}</small>
+    <h3 class="song--title-1">{{ song.track }}. {{ song.title }}</h3>
+    <h4 class="song--title-2">
+      {{ song.art }}, {{ song.alb }}
+      <!-- <small>{{song.date | date}}</small> -->
+    </h4>
   </div>
-  <app-context-menu [item]="song"></app-context-menu>
+  <div>
+    {{ song.quality }}
+    {{ song.time | timedisplay }}
+    <app-context-menu [item]="song"></app-context-menu>
+  </div>
 </li>
