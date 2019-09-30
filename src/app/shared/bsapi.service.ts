@@ -145,7 +145,7 @@ export class BsapiService {
   }
 
   addSong(songid, service, where = 'next', playnow = -1) {
-    const queryReqUrl = `/Add?songid=${songid}&service=${service}&where=${where}&playnow=${playnow}`;
+    const queryReqUrl = `/Add?file=${songid}&service=${service}&where=${where}&playnow=${playnow}`;
     return this._doGet(queryReqUrl).pipe(map(res => this._FixXmlParse(res.addsong)));
   }
 
