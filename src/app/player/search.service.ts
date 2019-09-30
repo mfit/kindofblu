@@ -8,7 +8,8 @@ import { SearchResult } from '../shared/api/interfaces';
 })
 export class SearchService {
   recentSearches = [];
-  constructor(private bsapi: BsapiService) { }
+  constructor(private bsapi: BsapiService) {
+  }
 
   query(queryString, serviceName): Observable<SearchResult> {
     this.recentSearches.push(queryString);

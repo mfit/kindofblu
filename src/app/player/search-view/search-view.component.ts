@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { debounceTime, mergeMap, startWith } from 'rxjs/operators';
+import { debounceTime, mergeMap, startWith, takeUntil } from 'rxjs/operators';
 import { SearchService } from '../search.service';
 import { ServiceSourceService } from '../service-source.service';
-import { combineLatest } from 'rxjs';
+import { combineLatest, Subject } from 'rxjs';
 import { SearchResult } from 'src/app/shared/api/interfaces';
+import { BsapiService } from 'src/app/shared/bsapi.service';
 
 @Component({
   templateUrl: './search-view.component.html',
@@ -12,10 +13,17 @@ import { SearchResult } from 'src/app/shared/api/interfaces';
 })
 export class SearchViewComponent implements OnInit {
   searchInput = new FormControl();
-  constructor(private searchService: SearchService,
-    private sourceService: ServiceSourceService) { }
-
   result: SearchResult;
+  status$;
+  destroy$ = new Subject();
+
+  constructor(private searchService: SearchService,
+    private sourceService: ServiceSourceService,
+    private bsapi: BsapiService) { }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+  }
 
   ngOnInit() {
     let query$ = this.searchInput.valueChanges
@@ -34,6 +42,7 @@ export class SearchViewComponent implements OnInit {
           return this.searchService.query(queryString, serviceName);
         }))
       .subscribe(result => this.result = result);
-  }
 
+    this.status$ = this.bsapi.getStatus().pipe(takeUntil(this.destroy$));
+  }
 }

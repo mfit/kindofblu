@@ -11,6 +11,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { AlbumViewComponent } from './album-view/album-view.component';
 import { AlbumsongComponent } from './albumsong/albumsong.component';
 import { ArtistViewComponent } from './artist-view/artist-view.component';
+import { PlayerControlsComponent } from './player-controls/player-controls.component';
 
 @NgModule({
   imports: [
@@ -30,7 +31,8 @@ import { ArtistViewComponent } from './artist-view/artist-view.component';
     SearchViewComponent,
     AlbumViewComponent,
     AlbumsongComponent,
-    ArtistViewComponent
+    ArtistViewComponent,
+    PlayerControlsComponent
   ]
 })
 export class PlayerModule {
