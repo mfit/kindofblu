@@ -1,0 +1,14 @@
+<!-- <mat-form-field class="fullwidth">
+  <mat-label translate="SEND.FORM.NAME"></mat-label>
+  <input formControlName="name" matInput type="text" />
+  <mat-error *ngIf="form.get('name').invalid">
+    <div *ngIf="form.get('name').errors.required" translate="SEND.FORM.ERRORS.NAME_REQUIRED"></div>
+  </mat-error>
+</mat-form-field> -->
+<form (submit)="submit()" [formGroup]="form">
+  <mat-form-field class="fullwidth">
+    <mat-label>Player Ip</mat-label>
+    <input formControlName="ip" matInput type="text" />
+  </mat-form-field>
+  <button type="submit" mat-raised-button>Save</button>
+</form>

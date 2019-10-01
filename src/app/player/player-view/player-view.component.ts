@@ -35,8 +35,11 @@ export class PlayerViewComponent implements OnInit {
       take(1)
     ).subscribe(v => this.sessionPlaylistStart = v);
 
+    // TODO:  use status.song and start, end to get a slice of the
+    //      playlist around the current song
     this.playlist$ = this.statusService.statusTrackChange$
       .pipe(
+        tap(v => console.log("status track change", v)),
         mergeMap(_ => this.api.getCurrentPlaylist())
       );
 

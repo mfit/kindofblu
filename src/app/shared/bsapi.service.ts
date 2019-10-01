@@ -6,15 +6,13 @@ import { Observable } from 'rxjs';
 import { PlayerStatus, Playlist, SearchResult, Album } from './api/interfaces';
 import { ServiceDef } from './api/interfaces/service-def';
 import { HttpClient } from '@angular/common/http';
+import { PlayerSettings } from './player-settings';
+import { SettingsService } from '../settings/settings.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BsapiService {
-  protocol = 'http';
-  ip = '192.168.0.19';
-  port = '11000';
-  public baseurl = 'http://192.168.0.102:11000';
 
   parserOptions = {
     // attributeNamePrefix: "@_",
@@ -34,7 +32,15 @@ export class BsapiService {
     tagValueProcessor: a => he.decode(a) //default is a=>a
   };
 
-  constructor(private http: HttpClient) {}
+  // TODO: would it make sense to pass in the settings for every request,
+  //       so as not to depend on the settingsService ?
+  constructor(private http: HttpClient, private settingsService: SettingsService) {
+  }
+
+  get baseurl() {
+    const settings = this.settingsService.getSettings$().value;
+    return `${settings.protocol}://${settings.ip}:${settings.port}`;
+  }
 
   // service discovery
   getServiceList() {
@@ -55,9 +61,10 @@ export class BsapiService {
     return this._doGet('/Status').pipe(map(response => <PlayerStatus>response.status));
   }
 
-  getCurrentPlaylist(): Observable<Playlist> {
+  // TODO : use start / end params for getting a slice of the playlist only
+  getCurrentPlaylist(start?, end?): Observable<Playlist> {
+
     return this._doGet('/Playlist').pipe(
-      tap(v => console.log(v)),
       map(playlist => {
         return {
           songs: this._listItemHelper(playlist.playlist.song)
@@ -88,7 +95,6 @@ export class BsapiService {
   }
 
   search(query, service = ''): Observable<SearchResult> {
-    // http://192.168.0.19:11000/Search?service=Qobuz&expr=Coltrane
     query = encodeURI(query);
     const queryReqUrl = `/Search?service=${service}&expr=${query}`;
     return this._doGet(queryReqUrl).pipe(
@@ -136,7 +142,7 @@ export class BsapiService {
   }
 
   // http://192.168.0.19:11000/Add?playnow=1&service=Qobuz&albumid=5014436905025
-  // add an album to playlist, optionally start playing right now
+  // add an album to the queue, optionally start playing right now
   // Also available :
   //    where=next , where=last
   addAlbum(albumid, service, where = 'next', playnow = -1) {
@@ -144,11 +150,21 @@ export class BsapiService {
     return this._doGet(queryReqUrl).pipe(map(res => this._FixXmlParse(res.addsong)));
   }
 
+  /**
+   * Add a single song to the queue.
+   * @param songid
+   * @param service
+   * @param where
+   * @param playnow
+   */
   addSong(songid, service, where = 'next', playnow = -1) {
     const queryReqUrl = `/Add?file=${songid}&service=${service}&where=${where}&playnow=${playnow}`;
     return this._doGet(queryReqUrl).pipe(map(res => this._FixXmlParse(res.addsong)));
   }
 
+  /**
+   * Empty the queue..
+   */
   playlistClear() {
     return this._doGet('/Clear').pipe(map(res => this._FixXmlParse(res.addsong)));
   }
@@ -219,8 +235,7 @@ export class BsapiService {
   }
 
   private _url(qstr) {
-    return this.baseurl + qstr;
-    // return `${protocol}://${ip}:${port}/${qstr}`;
+    return `${this.baseurl}${qstr}`;
   }
 
   private _FixXmlParse(obj) {

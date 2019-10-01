@@ -10,6 +10,7 @@ import { PlayerModule } from './player/player.module';
 import { RouterModule } from '@angular/router';
 import { SharedModule } from './shared/shared.module';
 import { BsArtworkDirective } from './shared/bs-artwork.directive';
+import { SettingsModule } from './settings/settings.module';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { BsArtworkDirective } from './shared/bs-artwork.directive';
     ),
 
     PlayerModule,
+    SettingsModule,
     SharedModule
   ],
   providers: [],

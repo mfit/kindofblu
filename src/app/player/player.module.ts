@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PlayerViewComponent } from './player-view/player-view.component';
-import { PlayerRoutingModule } from './player-routing/player-routing.module';
+import { PlayerRoutingModule } from './player-routing.module';
 import { PlayerStatusComponent } from './player-status/player-status.component';
 import { SharedModule } from '../shared/shared.module';
 import { ServicesViewComponent } from './services-view/services-view.component';
