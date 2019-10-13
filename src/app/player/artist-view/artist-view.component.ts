@@ -11,25 +11,31 @@ import { withLatestFrom, mergeMap, tap, map } from 'rxjs/operators';
 })
 export class ArtistViewComponent implements OnInit {
   albums$;
-  constructor(private bsapi: BsapiService, private service: ServiceSourceService,
-    private route: ActivatedRoute, private router: Router) { }
+  constructor(
+    private bsapi: BsapiService,
+    private service: ServiceSourceService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.albums$ = this.route.paramMap.pipe(
       withLatestFrom(this.service.getService()),
-      mergeMap(([params, service]) => this.bsapi.getAlbumsOfArtist(params.get('artistid'), service)),
+      mergeMap(([params, service]) =>
+        this.bsapi.getAlbumsOfArtist(params.get('artistid'), service)
+      ),
       map(albumResult => {
         albumResult.albums = albumResult.albums.map(album => {
           album['service'] = albumResult.service;
           return album;
         });
         return albumResult;
-      }), tap(res => console.log(res))
-      );
+      }),
+      tap(res => console.log(res))
+    );
   }
 
   albumClick(album) {
     this.router.navigate(['/album', album.albumid]);
   }
-
 }

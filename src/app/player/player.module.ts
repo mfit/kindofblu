@@ -13,15 +13,20 @@ import { AlbumsongComponent } from './albumsong/albumsong.component';
 import { ArtistViewComponent } from './artist-view/artist-view.component';
 import { PlayerControlsComponent } from './player-controls/player-controls.component';
 
+import * as fromPlayer from './player.reducers';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { PlayerEffects } from './player.effects';
+
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-
     PlayerRoutingModule,
     SharedModule,
-
+    StoreModule.forFeature(fromPlayer.PlayerFeatureKey, fromPlayer.reducer),
+    EffectsModule.forFeature([PlayerEffects])
   ],
   declarations: [
     PlayerViewComponent,
@@ -35,5 +40,4 @@ import { PlayerControlsComponent } from './player-controls/player-controls.compo
     PlayerControlsComponent
   ]
 })
-export class PlayerModule {
-}
+export class PlayerModule {}

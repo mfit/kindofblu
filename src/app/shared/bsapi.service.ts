@@ -63,8 +63,8 @@ export class BsapiService {
 
   // TODO : use start / end params for getting a slice of the playlist only
   getCurrentPlaylist(start?, end?): Observable<Playlist> {
-
-    return this._doGet('/Playlist').pipe(
+    const url = '/Playlist';
+    return this._doGet(url).pipe(
       map(playlist => {
         return {
           songs: this._listItemHelper(playlist.playlist.song)

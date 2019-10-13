@@ -1,9 +1,23 @@
 import { Component, OnInit } from '@angular/core';
 import { BsapiService } from 'src/app/shared/bsapi.service';
-import { Observable, } from 'rxjs';
-import { mergeMap, tap, take, filter, map, withLatestFrom, distinctUntilChanged, debounceTime, shareReplay } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import {
+  filter,
+  map,
+  distinctUntilChanged,
+  debounceTime,
+} from 'rxjs/operators';
 import { BsstatusService } from 'src/app/shared/bsstatus.service';
-import { PlayerStatus, Playlist, ActivePlaylistEntry, PlaylistEntry } from 'src/app/shared/api/interfaces';
+import {
+  PlayerStatus,
+  Playlist,
+  ActivePlaylistEntry,
+  PlaylistEntry
+} from 'src/app/shared/api/interfaces';
+import { Store, select } from '@ngrx/store';
+import { PlayerState, PlayerFeatureKey } from '../player.reducers';
+import { statusUpdate, playlistUpdate } from '../player.actions';
+import * as playerActions from '../player.actions';
 
 @Component({
   selector: 'app-player-view',
@@ -14,130 +28,85 @@ export class PlayerViewComponent implements OnInit {
   status$: Observable<PlayerStatus>;
   playlist$: Observable<Playlist>;
   songs$: Observable<ActivePlaylistEntry[]>;
-  volume:number;
-
-  // viewStyle$ = new BehaviorSubject<number>(1);
-
+  volume: number;
   sessionPlaylistStart: number;
 
-  constructor(private api: BsapiService,
-    private statusService: BsstatusService) { }
+  constructor(
+    private api: BsapiService,
+    private statusService: BsstatusService,
+    private store: Store<{ player: PlayerState }>
+  ) {
 
-  ngOnInit() {
+    // Initiate status update
+    // TODO : due to throttling, it shouldn create request-cascades .. but still does..
+    this.store.dispatch(statusUpdate());
 
-    this.status$ = this.statusService.status$;
+    const store$ = store.pipe(select(PlayerFeatureKey));
+    this.status$ = store$.pipe(select('status'));
 
-    // Playlist entry of first status of session
-    // TODO : move to service (with all the other playlist stuff)
-    this.statusService.status$.pipe(
-      filter(v => !!v),
-      map(v => v.song),
-      take(1)
-    ).subscribe(v => this.sessionPlaylistStart = v);
+    // TODO: correctly dispatch playlist update (e.g. on "track change" event)
+    setTimeout(() => {
+      this.store.dispatch(playlistUpdate());
+    }, 2000);
 
-    // TODO:  use status.song and start, end to get a slice of the
-    //      playlist around the current song
-    this.playlist$ = this.statusService.statusTrackChange$
-      .pipe(
-        tap(v => console.log("status track change", v)),
-        mergeMap(_ => this.api.getCurrentPlaylist())
-      );
+    this.songs$ = store$.pipe(select('playlistWindow'));
 
-    const allSongs = this.playlist$.pipe(
-      map(playlist => playlist.songs),
-      withLatestFrom(this.status$),
-      tap(v => console.log(v)),
+    store$.subscribe(console.log);
 
-      // mark currently playing
-      map(([songs, status]) => {
-        return songs.map(entry => Object.assign(entry, {playing: entry.id === status.song}))
-      }),
-      shareReplay(1, 1000 * 30)
-    );
-
-    const upcomingSongs = allSongs.pipe(
-      // extract a window of around 20, just around the currently playing entry
-      withLatestFrom(this.status$),
-      map(([songs, status]) => {
-        return songs.filter(entry => entry.id >= (this.sessionPlaylistStart || status.song)-5)
-      })
-    );
-
-    this.songs$ = upcomingSongs;
-    // this.songs$ = allSongs;
-
-    // this.viewStyle$.pipe(
-    //   switchMap(viewstyle => {
-    //     switch(viewstyle) {
-    //       case 0: return allSongs;
-    //       case 1: return upcomingSongs;
-    //       default: return of([]);
-    //     }
-    //   })).subscribe(v =>
-    //     console.log("switched", v)
-    //   );
-
-    this.status$.pipe(
-      filter(v => !!v),
-      map(v => v.volume),
+    // TODO: volume value + volume change needs better handling
+    const volume$ = this.status$.pipe(
+      filter(status => !!status),
+      map(status => status.volume),
       distinctUntilChanged(),
       debounceTime(1500)
-      ).subscribe(v => {
-        this.volume = v;
-    });
+    );
+    volume$.subscribe(v => (this.volume = v));
   }
 
-  // switchView() {
-  //   const current = this.viewStyle$.getValue();
-  //   this.viewStyle$.next(current === 1 ? 0 : 1);
-  // }
+  ngOnInit() {
+  }
 
   clear() {
     this.api.playlistClear().subscribe();
   }
 
   next() {
-    const currentSong = this.statusService.getStatus().song;
-    this.api.playSong(currentSong + 1).subscribe();
+    this.store.dispatch(playerActions.skipNext());
   }
 
   prev() {
-    const currentSong = this.statusService.getStatus().song;
-    this.api.playSong(currentSong - 1).subscribe();
+    this.store.dispatch(playerActions.skipPrevious());
   }
 
   play() {
-    this.api.play().subscribe();
-  }
-
-  jumpTo(song: PlaylistEntry) {
-    this.api.playSong(song.id).subscribe();
-  }
-
-  clearPlaylistEntry(song: PlaylistEntry) {
-    this.api.clearSong(song.id).subscribe(_ => {});
+    this.store.dispatch(playerActions.play());
   }
 
   pause() {
-    this.api.pause().subscribe();
+    this.store.dispatch(playerActions.pause());
+  }
+
+  jumpTo(song: PlaylistEntry) {
+    this.store.dispatch(playerActions.skipToSong({song: song}));
+  }
+
+  clearPlaylistEntry(song: PlaylistEntry) {
+    this.store.dispatch(playerActions.removeSong({ song: song }));
   }
 
   volumeSliderChange($ev) {
-    this.api.setVolume(this.volume).subscribe();
+    this.store.dispatch(playerActions.setVolume({volume: this.volume}));
   }
 
   incVol() {
-    this.volume += 1;
-    this.api.setVolume(this.volume).subscribe();
+    this.store.dispatch(playerActions.volumeUp());
   }
 
   decVol() {
-    this.volume -= 1;
-    this.api.setVolume(this.volume).subscribe();
+    this.store.dispatch(playerActions.volumeDown());
   }
 
   _volumeTransform(val) {
     return val + ' %';
   }
-
 }

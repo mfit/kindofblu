@@ -12,11 +12,11 @@ import { SharedModule } from './shared/shared.module';
 import { BsArtworkDirective } from './shared/bs-artwork.directive';
 import { SettingsModule } from './settings/settings.module';
 
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
+
 @NgModule({
-  declarations: [
-    AppComponent,
-    BsArtworkDirective
-  ],
+  declarations: [AppComponent, BsArtworkDirective],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -26,6 +26,9 @@ import { SettingsModule } from './settings/settings.module';
       // { enableTracing: true } // <-- debugging purposes only)],
     ),
 
+    StoreModule.forRoot({}),
+    EffectsModule.forRoot([]),
+
     PlayerModule,
     SettingsModule,
     SharedModule
@@ -33,4 +36,4 @@ import { SettingsModule } from './settings/settings.module';
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

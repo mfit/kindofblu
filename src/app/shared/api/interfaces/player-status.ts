@@ -3,7 +3,7 @@ export interface PlayerStatus {
   album: string;
   artist: string;
   // canMovePlayback: true
-  // canSeek: 1
+  canSeek: number;
   // cursor: 1097
   fn: string; // "Qobuz:16148445"
   image: string; // "/Artwork?service=Qobuz&amp;songid=Qobuz%3A16148445"
@@ -14,13 +14,15 @@ export interface PlayerStatus {
   pid: number;
   // prid: 0
   quality: string; // "cd"
-  // repeat: 2
+  repeat: number;
+  shuffle: number;
   secs: number;
   service: string; // "Qobuz"
   serviceIcon: string; // "/Sources/images/QobuzIcon.png"
-  // shuffle: 0
+
   // sid: 3
   // sleep: ""
+
   song: number; // 1095 (playlist-entry id)
   state: string; // "play"
   streamFormat: string; // "FLAC 44100/16/2"

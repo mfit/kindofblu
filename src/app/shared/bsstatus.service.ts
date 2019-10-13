@@ -4,6 +4,7 @@ import { BehaviorSubject, timer, Observable } from "rxjs";
 import { mergeMap, map, share, distinctUntilChanged } from "rxjs/operators";
 import * as he from "he";
 import { PlayerStatus } from "./api/interfaces";
+import { PlayerSettings } from "./player-settings";
 
 @Injectable({
   providedIn: "root"
@@ -19,27 +20,31 @@ export class BsstatusService {
   statusTrackChange$: Observable<any>;
 
   constructor(private api: BsapiService) {
-    const pollingSource = timer(0, this.statusInterval);
+    // const pollingSource = timer(0, this.statusInterval);
 
-    const statusUpdates = pollingSource.pipe(
-      mergeMap(_ => this.api.getStatus()),
-      map(status => this._mapStatus(status)),
-      share()
-    );
+    // const statusUpdates = pollingSource.pipe(
+    //   mergeMap(_ => this.api.getStatus()),
+    //   map(status => this.mapStatus(status)),
+    //   share()
+    // );
 
-    statusUpdates.subscribe(status => {
-      this.status$.next(status);
-    });
+    // statusUpdates.subscribe(status => {
+    //   this.status$.next(status);
+    // });
 
-    this.statusTrackChange$ = statusUpdates.pipe(
-      map(status => [status.song, status.state].join("-")),
-      distinctUntilChanged()
-    );
+    // this.statusTrackChange$ = statusUpdates.pipe(
+    //   map(status => [status.song, status.state].join("-")),
+    //   distinctUntilChanged()
+    // );
   }
 
-  _mapStatus(status) {
+  fetchStatus():Observable<PlayerStatus> {
+    return this.api.getStatus().pipe(map(status => this.mapStatus(status)));
+  }
+
+  mapStatus(status) {
     const mappedStatus = Object.assign(status, {
-      serviceIconUrl: this._mapImageUrl(status.serviceIcon),
+      serviceIconUrl: this.mapImageUrl(status.serviceIcon),
       name: status.name ? he.decode(status.name) : status.title1,
       artist: status.artist ? he.decode(status.artist) : status.title2,
       album: status.album ? he.decode(status.album) : status.title3
@@ -47,7 +52,7 @@ export class BsstatusService {
     return mappedStatus;
   }
 
-  _mapImageUrl(url) {
+  mapImageUrl(url) {
     if (!url) {
       return "";
     }

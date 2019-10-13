@@ -5,8 +5,11 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class TimedisplayPipe implements PipeTransform {
   transform(value: any, args?: any): any {
-    const secs = ('' + (value % 60)).padStart(2, '0');
-    const mins = ('' + Math.round(value / 60)).padStart(3, ' ');
+    const secsNum = value % 60;
+    const minsNum = Math.floor(value / 60);
+
+    const secs = ('' + secsNum).padStart(2, '0');
+    const mins = ('' + minsNum).padStart(3, ' ');
     return mins + ":" + secs;
   }
 }

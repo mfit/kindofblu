@@ -1,12 +1,12 @@
 <app-player-status [status]="status$ | async"></app-player-status>
 
-<div class="player-controls-wrapper">
+<div class="player-controls-wrapper" *ngIf="status$ | async as status">
   <div class="player-controls">
     <button mat-icon-button (click)="prev()"><mat-icon>skip_previous</mat-icon></button>
-    <button mat-icon-button (click)="pause()" [disabled]="(status$ | async)?.state === 'pause'">
+    <button mat-icon-button (click)="pause()" [disabled]="status.state === 'pause'">
       <mat-icon>pause_circle_outline</mat-icon>
     </button>
-    <button mat-icon-button (click)="play()" [disabled]="(status$ | async)?.state === 'play'">
+    <button mat-icon-button (click)="play()" [disabled]="status.state === 'play'">
       <mat-icon>play_circle_outline</mat-icon>
     </button>
     <button mat-icon-button (click)="next()"><mat-icon>skip_next</mat-icon></button>
@@ -24,7 +24,6 @@
       (change)="volumeSliderChange($ev)"
     ></mat-slider>
     <button mat-icon-button (click)="incVol()"><mat-icon>volume_up</mat-icon></button>
-    <input disabled [(ngModel)]="volume" size="2" class="volume-numeric-indicator" />
   </div>
 </div>
 <div>
