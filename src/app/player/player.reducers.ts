@@ -29,7 +29,7 @@ const playerReducer = createReducer(
     ...state,
     status: status,
     hasConnection: true,
-    songPlayer: [status.song, status.state].join('-')
+    songPlaying: [status.song, status.state].join('-')
   })),
   on(PlayerActions.statusUpdateFailed, state => ({
     ...state,

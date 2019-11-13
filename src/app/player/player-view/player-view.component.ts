@@ -7,7 +7,6 @@ import {
   distinctUntilChanged,
   debounceTime,
 } from 'rxjs/operators';
-import { BsstatusService } from 'src/app/shared/bsstatus.service';
 import {
   PlayerStatus,
   Playlist,
@@ -33,7 +32,6 @@ export class PlayerViewComponent implements OnInit {
 
   constructor(
     private api: BsapiService,
-    private statusService: BsstatusService,
     private store: Store<{ player: PlayerState }>
   ) {
 

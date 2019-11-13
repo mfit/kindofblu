@@ -4,7 +4,16 @@ import { Injectable } from '@angular/core';
 import { BsapiService } from '../shared/bsapi.service';
 import { Store, select } from '@ngrx/store';
 import { of } from 'rxjs';
-import { mergeMap, map, catchError, delay, withLatestFrom, filter, tap, debounceTime } from 'rxjs/operators';
+import {
+  mergeMap,
+  map,
+  catchError,
+  delay,
+  withLatestFrom,
+  filter,
+  tap,
+  debounceTime
+} from 'rxjs/operators';
 import { PlayerState, PlayerFeatureKey } from './player.reducers';
 import { BsstatusService } from '../shared/bsstatus.service';
 
@@ -34,16 +43,32 @@ export class PlayerEffects {
 
   // signalTrackChange$ = createEffect(() =>
   //   this.actions$.pipe(
-  //     ofType(PlayerActions.statusUpdateRcvd.type),
+  //     ofType(PlayerActions.statusUpdateRcvd),
   //     withLatestFrom(this.store.pipe(select(PlayerFeatureKey))),
   //     filter(([action, state]) => {
-  //       return !(action.status.song + action.status.name === state.status.song + state.status.name);
+  //       const now = [action.status.song, action.status.state].join('-');
+  //       return !(now === state.songPlaying);
   //     }),
+  //     tap(v => console.log('did signal!')),
   //     mergeMap(([action, state]) => {
   //       return of({ type: PlayerActions.playlistUpdate.type });
   //     })
   //   )
   // );
+
+  requestPlaylistOnChanges$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(
+        PlayerActions.play,
+        PlayerActions.skipNext,
+        PlayerActions.skipPrevious,
+        PlayerActions.skipToSong,
+        PlayerActions.pause
+      ),
+      tap(v => console.log("requesting!")),
+      mergeMap(() => of({ type: PlayerActions.playlistUpdate.type }))
+    )
+  );
 
   requestPlaylist$ = createEffect(() =>
     this.actions$.pipe(
@@ -141,7 +166,7 @@ export class PlayerEffects {
   playerVolumeSet$ = createEffect(() =>
     this.actions$.pipe(
       ofType(PlayerActions.setVolume),
-      mergeMap(({volume}) => {
+      mergeMap(({ volume }) => {
         return this.bsapi.setVolume(volume).pipe(
           map(() => ({ type: PlayerActions.playerActionOk.type })),
           catchError(() => of({ type: PlayerActions.playerActionFail.type }))
@@ -153,7 +178,7 @@ export class PlayerEffects {
   playlistRemoveSong$ = createEffect(() =>
     this.actions$.pipe(
       ofType(PlayerActions.removeSong),
-      mergeMap(({song}) => {
+      mergeMap(({ song }) => {
         return this.bsapi.clearSong(song.id).pipe(
           map(() => ({ type: PlayerActions.playerActionOk.type })),
           catchError(() => of({ type: PlayerActions.playerActionFail.type }))
@@ -165,7 +190,7 @@ export class PlayerEffects {
   playlistJumpToSong$ = createEffect(() =>
     this.actions$.pipe(
       ofType(PlayerActions.skipToSong),
-      mergeMap(({song}) => {
+      mergeMap(({ song }) => {
         return this.bsapi.playSong(song.id).pipe(
           map(() => ({ type: PlayerActions.playerActionOk.type })),
           catchError(() => of({ type: PlayerActions.playerActionFail.type }))
@@ -173,7 +198,6 @@ export class PlayerEffects {
       })
     )
   );
-
 
   constructor(
     private actions$: Actions,
