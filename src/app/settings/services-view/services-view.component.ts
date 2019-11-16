@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { BsapiService } from 'src/app/shared/bsapi.service';
+import { BsapiService } from 'src/app/core/bsapi.service';
 import { map } from 'rxjs/operators';
 import { ServiceSourceService } from '../service-source.service';
 import { combineLatest } from 'rxjs';

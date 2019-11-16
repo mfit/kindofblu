@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { debounceTime, mergeMap, startWith, takeUntil } from 'rxjs/operators';
 import { SearchService } from '../search.service';
-import { ServiceSourceService } from '../service-source.service';
+import { ServiceSourceService } from '../../settings/service-source.service';
 import { combineLatest, Subject } from 'rxjs';
 import { SearchResult } from 'src/app/shared/api/interfaces';
-import { BsapiService } from 'src/app/shared/bsapi.service';
+import { BsapiService } from 'src/app/core/bsapi.service';
 
 @Component({
   templateUrl: './search-view.component.html',

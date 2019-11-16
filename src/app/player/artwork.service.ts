@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BsapiService } from '../shared/bsapi.service';
+import { BsapiService } from '../core/bsapi.service';
 
 @Injectable({
   providedIn: 'root'

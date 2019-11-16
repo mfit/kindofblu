@@ -3,10 +3,10 @@ import { map, tap } from 'rxjs/operators';
 import * as parser from 'fast-xml-parser';
 import * as he from 'he';
 import { Observable } from 'rxjs';
-import { PlayerStatus, Playlist, SearchResult, Album } from './api/interfaces';
-import { ServiceDef } from './api/interfaces/service-def';
+import { PlayerStatus, Playlist, SearchResult, Album } from '../shared/api/interfaces';
+import { ServiceDef } from '../shared/api/interfaces/service-def';
 import { HttpClient } from '@angular/common/http';
-import { PlayerSettings } from './player-settings';
+import { PlayerSettings } from '../shared/player-settings';
 import { SettingsService } from '../settings/settings.service';
 
 @Injectable({

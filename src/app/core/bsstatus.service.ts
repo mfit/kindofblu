@@ -3,8 +3,8 @@ import { BsapiService } from "./bsapi.service";
 import { BehaviorSubject, timer, Observable } from "rxjs";
 import { mergeMap, map, share, distinctUntilChanged } from "rxjs/operators";
 import * as he from "he";
-import { PlayerStatus } from "./api/interfaces";
-import { PlayerSettings } from "./player-settings";
+import { PlayerStatus } from "../shared/api/interfaces";
+import { PlayerSettings } from "../shared/player-settings";
 
 @Injectable({
   providedIn: "root"

@@ -1,9 +1,9 @@
 import { Component, OnInit, OnChanges, Input } from '@angular/core';
-import { BsapiService } from '../bsapi.service';
+import { BsapiService } from '../../core/bsapi.service';
 import { Router } from '@angular/router';
 import { FeedbackService } from '../feedback.service';
 import { mergeMap } from 'rxjs/operators';
-import { ServiceSourceService } from 'src/app/player/service-source.service';
+import { ServiceSourceService } from 'src/app/settings/service-source.service';
 
 interface ContextAction {
   (item: any): void

@@ -1,5 +1,5 @@
 import { Directive, Input, SimpleChanges } from '@angular/core';
-import { BsapiService } from './bsapi.service';
+import { BsapiService } from '../core/bsapi.service';
 
 // TODO:
 // not in use

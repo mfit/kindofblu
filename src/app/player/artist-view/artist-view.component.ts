@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { BsapiService } from 'src/app/shared/bsapi.service';
-import { ServiceSourceService } from '../service-source.service';
+import { BsapiService } from 'src/app/core/bsapi.service';
+import { ServiceSourceService } from '../../settings/service-source.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { withLatestFrom, mergeMap, tap, map } from 'rxjs/operators';
 

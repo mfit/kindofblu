@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, SimpleChanges, OnChanges } from '@angular/core';
-import { BsapiService } from '../bsapi.service';
+import { BsapiService } from '../../core/bsapi.service';
 
 @Component({
   selector: 'bs-artwork',

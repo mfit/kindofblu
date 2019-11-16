@@ -1,7 +1,7 @@
 import * as PlayerActions from './player.actions';
 import { createEffect, Actions, ofType } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
-import { BsapiService } from '../shared/bsapi.service';
+import { BsapiService } from '../core/bsapi.service';
 import { Store, select } from '@ngrx/store';
 import { of } from 'rxjs';
 import {
@@ -15,7 +15,7 @@ import {
   debounceTime
 } from 'rxjs/operators';
 import { PlayerState, PlayerFeatureKey } from './player.reducers';
-import { BsstatusService } from '../shared/bsstatus.service';
+import { BsstatusService } from '../core/bsstatus.service';
 
 @Injectable()
 export class PlayerEffects {

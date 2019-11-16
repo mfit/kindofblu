@@ -3,9 +3,7 @@ import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
-import {
-  HttpClientModule,
-} from "@angular/common/http";
+import { HttpClientModule } from '@angular/common/http';
 import { PlayerModule } from './player/player.module';
 import { RouterModule } from '@angular/router';
 import { SharedModule } from './shared/shared.module';
@@ -14,6 +12,8 @@ import { SettingsModule } from './settings/settings.module';
 
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
+import { CoreModule } from './core/core.module';
+import { SearchModule } from './search/search.module';
 
 @NgModule({
   declarations: [AppComponent, BsArtworkDirective],
@@ -29,7 +29,9 @@ import { StoreModule } from '@ngrx/store';
     StoreModule.forRoot({}),
     EffectsModule.forRoot([]),
 
+    CoreModule,
     PlayerModule,
+    SearchModule,
     SettingsModule,
     SharedModule
   ],
