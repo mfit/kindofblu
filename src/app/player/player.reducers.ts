@@ -1,9 +1,11 @@
-import { Action, createReducer, on } from '@ngrx/store';
+import { Action, createReducer, on, createFeatureSelector } from '@ngrx/store';
 import * as PlayerActions from './player.actions';
 import { PlayerStatus, PlaylistEntry, ActivePlaylistEntry } from '../shared/api/interfaces';
 import { state } from '@angular/animations';
 
 export const PlayerFeatureKey = 'player';
+
+export const getPlayerState = createFeatureSelector<PlayerState>(PlayerFeatureKey);
 
 export interface PlayerState {
   status: PlayerStatus;

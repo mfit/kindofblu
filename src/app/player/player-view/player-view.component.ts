@@ -14,7 +14,7 @@ import {
   PlaylistEntry
 } from 'src/app/shared/api/interfaces';
 import { Store, select } from '@ngrx/store';
-import { PlayerState, PlayerFeatureKey } from '../player.reducers';
+import { PlayerState, PlayerFeatureKey, getPlayerState } from '../player.reducers';
 import { statusUpdate, playlistUpdate } from '../player.actions';
 import * as playerActions from '../player.actions';
 
@@ -39,7 +39,7 @@ export class PlayerViewComponent implements OnInit {
     // TODO : due to throttling, it shouldn create request-cascades .. but still does..
     this.store.dispatch(statusUpdate());
 
-    const store$ = store.pipe(select(PlayerFeatureKey));
+    const store$ = store.pipe(select(getPlayerState));
     this.status$ = store$.pipe(select('status'));
 
     // TODO: correctly dispatch playlist update (e.g. on "track change" event)

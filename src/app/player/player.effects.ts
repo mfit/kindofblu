@@ -14,7 +14,7 @@ import {
   tap,
   debounceTime
 } from 'rxjs/operators';
-import { PlayerState, PlayerFeatureKey } from './player.reducers';
+import { PlayerState, PlayerFeatureKey, getPlayerState } from './player.reducers';
 import { BsstatusService } from '../core/bsstatus.service';
 
 @Injectable()
@@ -44,7 +44,7 @@ export class PlayerEffects {
   // signalTrackChange$ = createEffect(() =>
   //   this.actions$.pipe(
   //     ofType(PlayerActions.statusUpdateRcvd),
-  //     withLatestFrom(this.store.pipe(select(PlayerFeatureKey))),
+  //     withLatestFrom(this.store.pipe(select(getPlayerState))),
   //     filter(([action, state]) => {
   //       const now = [action.status.song, action.status.state].join('-');
   //       return !(now === state.songPlaying);
@@ -73,7 +73,7 @@ export class PlayerEffects {
   requestPlaylist$ = createEffect(() =>
     this.actions$.pipe(
       ofType(PlayerActions.playlistUpdate),
-      withLatestFrom(this.store.pipe(select(PlayerFeatureKey))),
+      withLatestFrom(this.store.pipe(select(getPlayerState))),
       mergeMap(([action, state]) => {
         return this.bsapi.getCurrentPlaylist().pipe(
           map(data => ({ type: PlayerActions.playlistUpdateRcvd.type, tracks: data.songs })),
@@ -110,7 +110,7 @@ export class PlayerEffects {
   playerSkipNext$ = createEffect(() =>
     this.actions$.pipe(
       ofType(PlayerActions.skipNext),
-      withLatestFrom(this.store.pipe(select(PlayerFeatureKey))),
+      withLatestFrom(this.store.pipe(select(getPlayerState))),
       mergeMap(([action, state]) => {
         const currentSong = state.status.song;
         return this.bsapi.playSong(currentSong + 1).pipe(
@@ -124,7 +124,7 @@ export class PlayerEffects {
   playerSkipPrev$ = createEffect(() =>
     this.actions$.pipe(
       ofType(PlayerActions.skipPrevious),
-      withLatestFrom(this.store.pipe(select(PlayerFeatureKey))),
+      withLatestFrom(this.store.pipe(select(getPlayerState))),
       mergeMap(([action, state]) => {
         const currentSong = state.status.song;
         return this.bsapi.playSong(currentSong - 1).pipe(
@@ -138,7 +138,7 @@ export class PlayerEffects {
   playerVolUp$ = createEffect(() =>
     this.actions$.pipe(
       ofType(PlayerActions.volumeUp),
-      withLatestFrom(this.store.pipe(select(PlayerFeatureKey))),
+      withLatestFrom(this.store.pipe(select(getPlayerState))),
       mergeMap(([action, state]) => {
         const currentVolume = state.status.volume;
         return this.bsapi.setVolume(currentVolume + 1).pipe(
@@ -152,7 +152,7 @@ export class PlayerEffects {
   playerVolDown$ = createEffect(() =>
     this.actions$.pipe(
       ofType(PlayerActions.volumeDown),
-      withLatestFrom(this.store.pipe(select(PlayerFeatureKey))),
+      withLatestFrom(this.store.pipe(select(getPlayerState))),
       mergeMap(([action, state]) => {
         const currentVolume = state.status.volume;
         return this.bsapi.setVolume(currentVolume - 1).pipe(
