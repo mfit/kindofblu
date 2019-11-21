@@ -65,7 +65,7 @@ export class PlayerEffects {
         PlayerActions.skipToSong,
         PlayerActions.pause
       ),
-      tap(v => console.log("requesting!")),
+      tap(v => console.log('requesting!')),
       mergeMap(() => of({ type: PlayerActions.playlistUpdate.type }))
     )
   );

@@ -5,9 +5,7 @@ import { FeedbackService } from '../feedback.service';
 import { mergeMap } from 'rxjs/operators';
 import { ServiceSourceService } from 'src/app/settings/service-source.service';
 
-interface ContextAction {
-  (item: any): void
-}
+type ContextAction = (item: any) => void;
 
 class Option {
   constructor(public name: string, public action: ContextAction) {
@@ -35,14 +33,14 @@ export class ContextMenuComponent implements OnInit {
   options = [
   ];
 
-  constructor(private bsapi:BsapiService, private service: ServiceSourceService,
+  constructor(private bsapi: BsapiService, private service: ServiceSourceService,
      private router: Router, private feedback: FeedbackService) { }
 
   ngOnInit() {
   }
 
   private _buildOptions(item) {
-    if (!item) return [];
+    if (!item) { return []; }
 
     let options = [];
     if (!!item.albumid) {
@@ -79,7 +77,7 @@ export class ContextMenuComponent implements OnInit {
   private actionAddAlbum(item) {
     const request = this.service.getService()
       .pipe(mergeMap(service => {
-        return this.bsapi.addAlbum(item.albumid, service)
+        return this.bsapi.addAlbum(item.albumid, service);
       }));
     request.subscribe(v => {
       this.feedback.success(`Added ${v.coumt} titles!`);
@@ -93,7 +91,7 @@ export class ContextMenuComponent implements OnInit {
   private actionAddSong(item) {
     const request = this.service.getService()
       .pipe(mergeMap(service => {
-        return this.bsapi.addSong(item.songid, service)
+        return this.bsapi.addSong(item.songid, service);
       }));
     request.subscribe(v => {
       this.feedback.success(`Added ${v.count} titles!`);

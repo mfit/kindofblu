@@ -15,7 +15,7 @@ export class AlbumViewComponent implements OnInit {
 
   album$: Observable<Album>;
   service$: Observable<string>;
-  constructor(private route:ActivatedRoute,
+  constructor(private route: ActivatedRoute,
     private service: ServiceSourceService,
     private bsapi: BsapiService) {
   }
@@ -30,7 +30,7 @@ export class AlbumViewComponent implements OnInit {
         // The album has no title or any metadata
         // Get the title (it should be just one) from the album's songs
         const albumtitlesFromSongs = albumdata.songs.map(song => song.alb).reduce((cur, next) => {
-          if (cur.indexOf(next)===-1) {
+          if (cur.indexOf(next) === -1) {
             cur.push(next);
           }
           return cur;

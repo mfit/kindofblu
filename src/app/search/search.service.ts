@@ -17,6 +17,6 @@ export class SearchService {
   }
 
   getRecentSearchTerm() {
-    return this.recentSearches[this.recentSearches.length-1];
+    return this.recentSearches[this.recentSearches.length - 1];
   }
 }

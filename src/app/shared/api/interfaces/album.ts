@@ -1,4 +1,4 @@
-import { AlbumSong } from "./album-song";
+import { AlbumSong } from './album-song';
 
 export interface Album {
   albumid: string;

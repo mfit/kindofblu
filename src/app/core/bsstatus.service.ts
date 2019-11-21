@@ -1,13 +1,13 @@
-import { Injectable } from "@angular/core";
-import { BsapiService } from "./bsapi.service";
-import { BehaviorSubject, timer, Observable } from "rxjs";
-import { mergeMap, map, share, distinctUntilChanged } from "rxjs/operators";
-import * as he from "he";
-import { PlayerStatus } from "../shared/api/interfaces";
-import { PlayerSettings } from "../shared/player-settings";
+import { Injectable } from '@angular/core';
+import { BsapiService } from './bsapi.service';
+import { BehaviorSubject, timer, Observable } from 'rxjs';
+import { mergeMap, map, share, distinctUntilChanged } from 'rxjs/operators';
+import * as he from 'he';
+import { PlayerStatus } from '../shared/api/interfaces';
+import { PlayerSettings } from '../shared/player-settings';
 
 @Injectable({
-  providedIn: "root"
+  providedIn: 'root'
 })
 export class BsstatusService {
   // Interval for status polling
@@ -38,7 +38,7 @@ export class BsstatusService {
     // );
   }
 
-  fetchStatus():Observable<PlayerStatus> {
+  fetchStatus(): Observable<PlayerStatus> {
     return this.api.getStatus().pipe(map(status => this.mapStatus(status)));
   }
 
@@ -54,9 +54,9 @@ export class BsstatusService {
 
   mapImageUrl(url) {
     if (!url) {
-      return "";
+      return '';
     }
-    return url.indexOf("http") === 0
+    return url.indexOf('http') === 0
       ? he.decode(url)
       : this.api.baseurl + he.decode(url);
   }

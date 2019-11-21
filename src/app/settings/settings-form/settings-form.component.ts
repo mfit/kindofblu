@@ -25,7 +25,7 @@ export class SettingsFormComponent implements OnInit {
   ngOnInit() {}
 
   submit() {
-    if(this.form.valid) {
+    if (this.form.valid) {
       const updated = {...this._playerSettings, ...this.form.value};
         this.save.next(updated);
     }

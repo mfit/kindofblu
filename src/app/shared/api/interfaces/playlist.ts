@@ -1,4 +1,4 @@
-import { PlaylistEntry } from "./playlist-entry";
+import { PlaylistEntry } from './playlist-entry';
 
 export interface Playlist {
   songs: PlaylistEntry[];

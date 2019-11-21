@@ -1,5 +1,7 @@
 <app-player-status [status]="status$ | async"></app-player-status>
 
+<app-player-controls></app-player-controls>
+
 <div class="player-controls-wrapper" *ngIf="status$ | async as status">
   <div class="player-controls">
     <button mat-icon-button (click)="prev()"><mat-icon>skip_previous</mat-icon></button>

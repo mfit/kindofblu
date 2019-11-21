@@ -31,7 +31,7 @@ export class SearchViewComponent implements OnInit {
         debounceTime(500)
       );
     const recent = this.searchService.getRecentSearchTerm();
-    if(recent) {
+    if (recent) {
       this.searchInput.setValue(recent);
       query$ = query$.pipe(startWith(recent));
     }

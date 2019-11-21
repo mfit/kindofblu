@@ -18,7 +18,7 @@ export class BsArtworkComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if(this.albumid && this.service) {
+    if (this.albumid && this.service) {
       this.src = this.bsapi.getAlbumArt(this.albumid, this.service);
     } else if (this.songid && this.service) {
       this.src = this.bsapi.getSongArt(this.songid, this.service);

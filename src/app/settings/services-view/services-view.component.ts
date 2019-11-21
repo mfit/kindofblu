@@ -25,7 +25,7 @@ export class ServicesViewComponent implements OnInit {
             image: this.api.hostPrefix(item.image),
             serviceKey: this._convertBrowseKey(item.browseKey),
             selected: activeService === this._convertBrowseKey(item.browseKey)
-          }))
+          }));
         }));
   }
 

@@ -10,6 +10,6 @@ export class TimedisplayPipe implements PipeTransform {
 
     const secs = ('' + secsNum).padStart(2, '0');
     const mins = ('' + minsNum).padStart(3, ' ');
-    return mins + ":" + secs;
+    return mins + ':' + secs;
   }
 }

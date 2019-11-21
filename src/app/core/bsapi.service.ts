@@ -16,7 +16,7 @@ export class BsapiService {
 
   parserOptions = {
     // attributeNamePrefix: "@_",
-    attrNodeName: 'attr', //default is 'false'
+    attrNodeName: 'attr', // default is 'false'
     textNodeName: '#text',
     ignoreAttributes: false,
     // ignoreNameSpace: false,
@@ -24,12 +24,12 @@ export class BsapiService {
     parseNodeValue: true,
     parseAttributeValue: true,
     // trimValues: true,
-    cdataTagName: '__cdata', //default is 'false'
+    cdataTagName: '__cdata', // default is 'false'
     // cdataPositionChar: "\\c",
     // localeRange: "", //To support non english character in tag/attribute values.
     parseTrueNumberOnly: true,
-    attrValueProcessor: a => he.decode(a, { isAttributeValue: true }), //default is a=>a
-    tagValueProcessor: a => he.decode(a) //default is a=>a
+    attrValueProcessor: a => he.decode(a, { isAttributeValue: true }), // default is a=>a
+    tagValueProcessor: a => he.decode(a) // default is a=>a
   };
 
   // TODO: would it make sense to pass in the settings for every request,
@@ -239,7 +239,7 @@ export class BsapiService {
   }
 
   private _FixXmlParse(obj) {
-    if (!obj) return {};
+    if (!obj) { return {}; }
     if (obj.attr) {
       Object.keys(obj.attr).forEach(attrname => {
         const val = obj.attr[attrname];
