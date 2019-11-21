@@ -1,1 +1,26 @@
-<p>player-controls works!</p>
+<div class="player-controls-wrapper" *ngIf="status$ | async as status">
+  <div class="player-controls">
+    <button mat-icon-button (click)="prev()"><mat-icon>skip_previous</mat-icon></button>
+    <button mat-icon-button (click)="pause()" [disabled]="status.state === 'pause'">
+      <mat-icon>pause_circle_outline</mat-icon>
+    </button>
+    <button mat-icon-button (click)="play()" [disabled]="status.state === 'play'">
+      <mat-icon>play_circle_outline</mat-icon>
+    </button>
+    <button mat-icon-button (click)="next()"><mat-icon>skip_next</mat-icon></button>
+  </div>
+  <div class="player-volume-controls">
+    <label>Volume</label>
+    <button mat-icon-button (click)="decVol()"><mat-icon>volume_down</mat-icon></button>
+    <mat-slider
+      min="0"
+      max="100"
+      step="0.5"
+      thumbLabel
+      [(ngModel)]="volume"
+      [displayWith]="_volumeTransform"
+      (change)="volumeSliderChange($ev)"
+    ></mat-slider>
+    <button mat-icon-button (click)="incVol()"><mat-icon>volume_up</mat-icon></button>
+  </div>
+</div>
