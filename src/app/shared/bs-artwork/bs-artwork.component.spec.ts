@@ -1,6 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BsArtworkComponent } from './bs-artwork.component';
+import { BsapiService } from 'src/app/core/bsapi.service';
+
+
+let bsapi: Partial<BsapiService>;
+bsapi = {};
 
 describe('BsArtworkComponent', () => {
   let component: BsArtworkComponent;
@@ -8,9 +13,9 @@ describe('BsArtworkComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BsArtworkComponent ]
-    })
-    .compileComponents();
+      providers: [{ provide: BsapiService, useValue: bsapi }],
+      declarations: [BsArtworkComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {

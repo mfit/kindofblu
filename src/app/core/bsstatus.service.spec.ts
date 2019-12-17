@@ -2,7 +2,7 @@ import { TestBed, inject } from '@angular/core/testing';
 
 import { BsstatusService } from './bsstatus.service';
 
-describe('BsstatusService', () => {
+xdescribe('BsstatusService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [BsstatusService]

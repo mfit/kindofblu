@@ -1,6 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SettingsFormComponent } from './settings-form.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('SettingsFormComponent', () => {
   let component: SettingsFormComponent;
@@ -8,9 +12,9 @@ describe('SettingsFormComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SettingsFormComponent ]
-    })
-    .compileComponents();
+      imports: [ReactiveFormsModule, MatFormFieldModule, MatInputModule, NoopAnimationsModule],
+      declarations: [SettingsFormComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {
