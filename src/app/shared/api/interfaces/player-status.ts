@@ -5,6 +5,7 @@ export interface PlayerStatus {
   // canMovePlayback: true
   canSeek: number;
   // cursor: 1097
+  db: string;
   fn: string; // "Qobuz:16148445"
   image: string; // "/Artwork?service=Qobuz&amp;songid=Qobuz%3A16148445"
   // indexing: 0

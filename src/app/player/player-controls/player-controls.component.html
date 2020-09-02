@@ -21,6 +21,7 @@
       [displayWith]="_volumeTransform"
       (change)="volumeSliderChange($ev)"
     ></mat-slider>
+    {{status.db}}db
     <button mat-icon-button (click)="incVol()"><mat-icon>volume_up</mat-icon></button>
   </div>
 </div>
