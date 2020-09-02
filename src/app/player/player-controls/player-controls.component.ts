@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { PlayerState, getPlayerState } from '../player.reducers';
-import { filter, map, distinctUntilChanged, debounceTime } from 'rxjs/operators';
+import { filter, map, distinctUntilChanged, debounceTime, takeUntil } from 'rxjs/operators';
 import { PlayerStatus } from 'src/app/shared/api/interfaces';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
 import * as playerActions from '../player.actions';
 
@@ -12,10 +12,11 @@ import * as playerActions from '../player.actions';
   templateUrl: './player-controls.component.html',
   styleUrls: ['./player-controls.component.scss']
 })
-export class PlayerControlsComponent implements OnInit {
+export class PlayerControlsComponent implements OnInit, OnDestroy {
   status$: Observable<PlayerStatus>;
   volume$;
   volume;
+  destroyed$ = new Subject();
   constructor(private store: Store<{ player: PlayerState }>) {}
   ngOnInit() {
     const store$ = this.store.pipe(select(getPlayerState));
@@ -28,7 +29,11 @@ export class PlayerControlsComponent implements OnInit {
       distinctUntilChanged(),
       debounceTime(1500)
     );
-    volume$.subscribe(v => (this.volume = v));
+    volume$.pipe(takeUntil(this.destroyed$)).subscribe(v => (this.volume = v));
+  }
+
+  ngOnDestroy() {
+    this.destroyed$.next();
   }
 
   next() {
