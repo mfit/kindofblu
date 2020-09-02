@@ -1,7 +1,7 @@
-<app-player-status [status]="status$ | async"></app-player-status>
 <app-player-controls></app-player-controls>
 
-<input type="search" [formControl]="searchInput">
+<input type="search" [formControl]="searchInput" placeholder="enter search term  (artist, album or song)">
+
 <div class="results">
   <section>
     <h2>Albums</h2>

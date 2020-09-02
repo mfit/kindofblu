@@ -1,4 +1,6 @@
-
+.app-menu {
+    padding: 5px;
+}
 .app-menu a {
     font-size: 32px;
 }
