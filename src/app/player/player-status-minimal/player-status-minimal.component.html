@@ -1,0 +1,12 @@
+<div *ngIf="status">
+  <div class="row">
+    <span class="img-container-xs">
+      <bs-artwork [songid]="status.fn" [service]="status.service"></bs-artwork>
+    </span>
+    <span>
+      <small>{{ status.artist }} - {{ status.name }}</small>
+      <br/><small>{{ status.album }}, {{ status.artist }}</small>
+      <br/><small>{{ status.secs | timedisplay }} / {{ status.totlen | timedisplay }}</small>
+    </span>
+  </div>
+</div>

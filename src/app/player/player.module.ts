@@ -17,6 +17,7 @@ import * as fromPlayer from './player.reducers';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { PlayerEffects } from './player.effects';
+import { PlayerStatusMinimalComponent } from './player-status-minimal/player-status-minimal.component';
 
 @NgModule({
   imports: [
@@ -37,7 +38,8 @@ import { PlayerEffects } from './player.effects';
     AlbumViewComponent,
     AlbumsongComponent,
     ArtistViewComponent,
-    PlayerControlsComponent
+    PlayerControlsComponent,
+    PlayerStatusMinimalComponent
   ]
 })
 export class PlayerModule {}
