@@ -16,7 +16,7 @@ class Option {
 @Component({
   selector: 'app-context-menu',
   templateUrl: './context-menu.component.html',
-  styleUrls: ['./context-menu.component.css']
+  styleUrls: ['./context-menu.component.css'],
 })
 export class ContextMenuComponent implements OnInit {
   _item: any;
@@ -30,35 +30,39 @@ export class ContextMenuComponent implements OnInit {
     return this._item;
   }
 
-  options = [
-  ];
+  options = [];
 
-  constructor(private bsapi: BsapiService, private service: ServiceSourceService,
-     private router: Router, private feedback: FeedbackService) { }
+  constructor(
+    private bsapi: BsapiService,
+    private service: ServiceSourceService,
+    private router: Router,
+    private feedback: FeedbackService
+  ) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   private _buildOptions(item) {
-    if (!item) { return []; }
+    if (!item) {
+      return [];
+    }
 
     let options = [];
     if (!!item.albumid) {
       options = options.concat([
         new Option('Go to album', (item) => this.actionGoToAlbum(item)),
-        new Option('Add album', (item) => this.actionAddAlbum(item))
+        new Option('Add album', (item) => this.actionAddAlbum(item)),
+        new Option('Add album (last)', (item) => this.actionAddAlbum(item, 'last')),
       ]);
     }
 
     if (!!item.artistid) {
-      options = options.concat([
-        new Option('Go to artist', (item) => this.actionGoToArtist(item)),
-      ]);
+      options = options.concat([new Option('Go to artist', (item) => this.actionGoToArtist(item))]);
     }
 
     if (!!item.songid) {
       options = options.concat([
-        new Option('Add song', (item) => this.actionAddSong(item)),
+        new Option('Add song (next)', (item) => this.actionAddSong(item)),
+        new Option('Add song (last)', (item) => this.actionAddSong(item, 'last')),
       ]);
     }
 
@@ -74,12 +78,13 @@ export class ContextMenuComponent implements OnInit {
   }
 
   // TODO: take service from item , if possible !
-  private actionAddAlbum(item) {
-    const request = this.service.getService()
-      .pipe(mergeMap(service => {
-        return this.bsapi.addAlbum(item.albumid, service);
-      }));
-    request.subscribe(v => {
+  private actionAddAlbum(item, where='next') {
+    const request = this.service.getService().pipe(
+      mergeMap((service) => {
+        return this.bsapi.addAlbum(item.albumid, service, where);
+      })
+    );
+    request.subscribe((v) => {
       this.feedback.success(`Added ${v.coumt} titles!`);
     });
   }
@@ -88,14 +93,14 @@ export class ContextMenuComponent implements OnInit {
     this.router.navigate(['/artist', item.artistid]);
   }
 
-  private actionAddSong(item) {
-    const request = this.service.getService()
-      .pipe(mergeMap(service => {
-        return this.bsapi.addSong(item.songid, service);
-      }));
-    request.subscribe(v => {
+  private actionAddSong(item, where='next') {
+    const request = this.service.getService().pipe(
+      mergeMap((service) => {
+        return this.bsapi.addSong(item.songid, service, where);
+      })
+    );
+    request.subscribe((v) => {
       this.feedback.success(`Added ${v.count} titles!`);
     });
   }
-
 }
